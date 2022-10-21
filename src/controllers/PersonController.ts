@@ -7,6 +7,8 @@ import * as yup from 'yup';
 class PersonController {
 
     async validate(req: Request, res: Response, next: NextFunction) {
+        if (req.method === 'POST' || req.method === 'PUT')
+
         try {
             const schema = yup.object().shape({
                 firstName: yup.string().required(),
