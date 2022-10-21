@@ -7,23 +7,24 @@ import * as yup from 'yup';
 class PersonController {
 
     async validate(req: Request, res: Response, next: NextFunction) {
-        if (req.method === 'POST' || req.method === 'PUT')
+        if (req.method === 'POST' || req.method === 'PUT') {
 
-        try {
-            const schema = yup.object().shape({
-                firstName: yup.string().required(),
-                lastName: yup.string().required(),
-                phone: yup.string().required(),
-                email: yup.string().email().required(),
-                cpf: yup.string().required()
-            });
+            try {
+                const schema = yup.object().shape({
+                    firstName: yup.string().required(),
+                    lastName: yup.string().required(),
+                    phone: yup.string().required(),
+                    email: yup.string().email().required(),
+                    cpf: yup.string().required()
+                });
 
-            await schema.validate(req.body, { abortEarly: false });
-        } catch (err) {
-            return res.status(422).json({
-                message: "Invalid data!",
-                error: err
-            });
+                await schema.validate(req.body, { abortEarly: false });
+            } catch (err) {
+                return res.status(422).json({
+                    message: "Invalid data!",
+                    error: err
+                });
+            }
         }
 
         next();
