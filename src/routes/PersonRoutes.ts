@@ -4,6 +4,8 @@ import { PersonController } from "../controllers/PersonController";
 const personRouter = Router();
 const personController = new PersonController();
 
+personRouter.use(personController.validate);
+
 personRouter.post('/', personController.create);
 personRouter.get('/', personController.getAll);
 personRouter.get('/:id', personController.getById);

@@ -1,15 +1,37 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ObjectID } from 'mongodb';
 import { Person } from '../entities/Person';
 import { personRepository } from '../repositories/PersonRepository';
+import * as yup from 'yup';
 
 class PersonController {
+
+    async validate(req: Request, res: Response, next: NextFunction) {
+        try {
+            const schema = yup.object().shape({
+                firstName: yup.string().required(),
+                lastName: yup.string().required(),
+                phone: yup.string().required(),
+                email: yup.string().email().required(),
+                cpf: yup.string().required()
+            });
+
+            await schema.validate(req.body, { abortEarly: false });
+        } catch (err) {
+            return res.status(422).json({
+                message: "Invalid data!",
+                error: err
+            });
+        }
+
+        next();
+    } 
 
     async create(req: Request, res: Response) {
 
         const { firstName, lastName, phone, email, cpf } = req.body;
 
-        let person = new Person(firstName, lastName, phone, email, cpf);;
+        let person = new Person(firstName, lastName, phone, email, cpf);
 
         person = await personRepository.save(person);
 
