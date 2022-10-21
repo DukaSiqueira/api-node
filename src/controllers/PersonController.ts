@@ -54,6 +54,14 @@ class PersonController {
         return res.status(200).json(person);
 
     }
+
+    async delete(req: Request, res: Response) {
+        const id = ObjectID.createFromHexString(req.params.id);
+
+        await personRepository.delete(id);
+
+        return res.status(200).json({ message: "Person succesfully Deleted."})
+    }
 }
 
 export { PersonController };
