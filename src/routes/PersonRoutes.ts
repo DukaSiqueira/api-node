@@ -7,5 +7,6 @@ const personController = new PersonController();
 personRouter.post('/', personController.create);
 personRouter.get('/', personController.getAll);
 personRouter.get('/:id', personController.getById);
+personRouter.put('/:id', personController.update);
 
 export { personRouter }

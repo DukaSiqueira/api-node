@@ -48,11 +48,7 @@ class PersonController {
             return res.status(404).json({ message: "Person not found." });
         }
 
-        person.firstName = firstName;
-        person.lastName = lastName;
-        person.phone = phone;
-        person.email = email;
-        person.cpf = cpf;
+        person.setProperties(firstName, lastName, phone, email, cpf);
 
         person = await personRepository.save(person);
         return res.status(200).json(person);
