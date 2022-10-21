@@ -39,7 +39,24 @@ class PersonController {
     }
 
     async update(req: Request, res: Response) {
-        
+        const id = ObjectID.createFromHexString(req.params.id);
+        const { firstName, lastName, phone, email, cpf } = req.body;
+
+        let person = await personRepository.findOneBy(id);
+
+        if (!person) {
+            return res.status(404).json({ message: "Person not found." });
+        }
+
+        person.firstName = firstName;
+        person.lastName = lastName;
+        person.phone = phone;
+        person.email = email;
+        person.cpf = cpf;
+
+        person = await personRepository.save(person);
+        return res.status(200).json(person);
+
     }
 }
 
