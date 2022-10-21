@@ -58,6 +58,12 @@ class PersonController {
     async delete(req: Request, res: Response) {
         const id = ObjectID.createFromHexString(req.params.id);
 
+        const person = await personRepository.findOneBy(id);
+
+        if (!person) {
+            return res.status(404).json({ message: "Person not found." });
+        }
+
         await personRepository.delete(id);
 
         return res.status(200).json({ message: "Person succesfully Deleted."})
